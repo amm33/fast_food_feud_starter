@@ -4,7 +4,8 @@ import "./Instructions.css"
 export function Instructions(props) {
   return (
     <aside className="instructions">
-      <p></p>
+      <p>{props.map(instructions) => 
+      return instructions}</p>
     </aside>
   )
 }
