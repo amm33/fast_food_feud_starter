@@ -27,10 +27,15 @@ const { data, categories, restaurants } = createDataSet()
 
 
 export function App() {
-  //var currentMenuItems
+  //var currentMenuItems = data.filter
   const [selectedCategory, setSelectedCategory] = useState(0);
   function handleEvent(category){
     setSelectedCategory(category)
+  }
+
+  const [selectedRestaurant, setSelectedRestaurant] = useState(0);
+  function handleEventRest(restaurant){
+    setSelectedRestaurant(restaurant)
   }
 
   return (
@@ -54,10 +59,10 @@ export function App() {
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">{restaurants.map((restaurant) =>
-          <p>
-            {restaurant}
-          </p>)}</div>
+          <div className="restaurants options">{restaurants.map((restaurant) => (
+          <Chip handleClick={() => handleEventRest(restaurant)}
+            label = {restaurant} isActive = {selectedRestaurant === restaurant}
+          />))}</div>
         </div>
 
         {/* INSTRUCTIONS GO HERE */}
