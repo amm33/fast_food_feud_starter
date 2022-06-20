@@ -2,6 +2,7 @@ import * as React from "react"
 // IMPORT ANY NEEDED COMPONENTS HERE
 import Header from "./components/Header/Header"
 import Instructions from "./components/Instructions/Instructions"
+import Chip from "./components/Chip/Chip"
 import { createDataSet } from "./data/dataset"
 import "./App.css"
 
@@ -30,6 +31,11 @@ export function App() {
         <div className="categories options">
           <h2 className="title">Categories</h2>
           {/* YOUR CODE HERE */}
+          {categories.map((category) => (
+            <Chip
+             label = {category}
+            />
+          ))}
         </div>
       </div>
 
@@ -40,11 +46,14 @@ export function App() {
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">{/* YOUR CODE HERE */}</div>
+          <div className="restaurants options">{restaurants.map((restaurant) =>
+          <p>
+            {restaurant}
+          </p>)}</div>
         </div>
 
         {/* INSTRUCTIONS GO HERE */}
-        <Instructions instructions = {appInfo.prop.instructions} />
+        <Instructions instructions = {appInfo.instructions.start} />
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">

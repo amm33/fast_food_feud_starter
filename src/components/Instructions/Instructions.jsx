@@ -1,11 +1,10 @@
 import * as React from "react"
 import "./Instructions.css"
 
-export function Instructions(props) {
+export function Instructions({instructions}) {
   return (
     <aside className="instructions">
-      <p>{props.map(instructions) => 
-      return instructions}</p>
+      <p>{instructions}</p>
     </aside>
   )
 }
