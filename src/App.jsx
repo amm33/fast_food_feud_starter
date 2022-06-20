@@ -4,6 +4,7 @@ import Header from "./components/Header/Header"
 import Instructions from "./components/Instructions/Instructions"
 import Chip from "./components/Chip/Chip"
 import { createDataSet } from "./data/dataset"
+import { useState } from "react"
 import "./App.css"
 
 // don't move this!
@@ -23,7 +24,15 @@ export const appInfo = {
 // or this!
 const { data, categories, restaurants } = createDataSet()
 
+
+
 export function App() {
+  //var currentMenuItems
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  function handleEvent(category){
+    setSelectedCategory(category)
+  }
+
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
@@ -32,9 +41,8 @@ export function App() {
           <h2 className="title">Categories</h2>
           {/* YOUR CODE HERE */}
           {categories.map((category) => (
-            <Chip
-             label = {category}
-            />
+            <Chip handleClick={() => handleEvent(category)}
+             label = {category} isActive = {selectedCategory === category}/>
           ))}
         </div>
       </div>
