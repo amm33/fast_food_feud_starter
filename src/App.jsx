@@ -1,13 +1,12 @@
 import * as React from "react"
-// IMPORT ANY NEEDED COMPONENTS HERE
-import Header from "./components/Header/Header"
-import Instructions from "./components/Instructions/Instructions"
-import Chip from "./components/Chip/Chip"
-import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
-
+import { Header } from "./components/Header/Header.jsx"
 import { createDataSet } from "./data/dataset"
+import { Instructions } from "./components/Instructions/Instructions.jsx"
+import { Chip } from "./components/Chip/Chip.jsx"
 import { useState } from "react"
+import {NutritionalLabel } from "./components/NutritionalLabel/NutritionalLabel.jsx"
 import "./App.css"
+import { nutritionFacts } from "./constants.js"
 
 // don't move this!
 export const appInfo = {
@@ -26,54 +25,26 @@ export const appInfo = {
 // or this!
 const { data, categories, restaurants } = createDataSet()
 
-
-
 export function App() {
-
-  const [selectedMenuItem, setSelectedMenuItem] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [selectedRestaurant, setSelectedRestaurant] = useState(0);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 
-
-  function handleEventMenu(item){
-    setSelectedMenuItem(item);
-  }
-
-  function handleEvent(category){
+  function handleEventCategory(category) {
     setSelectedCategory(category);
   }
 
-  function handleEventRest(restaurant){
+  function handleEventRestaurant(restaurant) {
     setSelectedRestaurant(restaurant);
   }
 
-  function findInstruction(){
-    if (selectedCategory == null && selectedRestaurant == null) {
-      return appInfo.instructions.start; 
-    }else if (selectedCategory != null && selectedRestaurant == null) {
-      return appInfo.instructions.onlyCategory;
-    }else if (selectedCategory == null && selectedRestaurant != null){
-      return appInfo.instructions.onlyRestaurant;
-    }else if (selectedCategory != null && selectedRestaurant != null && selectedItem == null){
-      return appInfo.instructions.noSelectedItem;
-    }else{
-      return appInfo.instructions.allSelected; 
-    }
+  function handleEventMenuItem(menuItem) {
+    setSelectedMenuItem(menuItem);
   }
 
-  function itemCheck(part){
-    if(selectedMenuItem ==null){
-      return null;
-    }else if (part = ""){
-      return selectedMenuItem;
-    }else{
-      return selectedItem[part];
-    }
-  }
-   //filter for menu items --------------------
-   var currentMenuItems = data.filter((item) => {
-    return (item.food_category == selectedCategory && item.restaurant == selectedRestaurant);
-  });
+  let currentMenuItems = data.filter(item => 
+    { return item.food_category == selectedCategory 
+      && item.restaurant == selectedRestaurant})
 
   return (
     <main className="App">
@@ -81,57 +52,43 @@ export function App() {
       <div className="CategoriesColumn col">
         <div className="categories options">
           <h2 className="title">Categories</h2>
-          {/* YOUR CODE HERE */}
-          {categories.map((category) => {
-            return <Chip handleClick={() => handleEvent(category)}
-             label = {category} isActive = {selectedCategory === category} key={category}/>
-            })}
+          {categories.map((category) => (
+            <Chip handleClick={() => handleEventCategory(category)}
+              label= {category} isActive={selectedCategory===category}/>
+            ))}
         </div>
       </div>
 
       {/* MAIN COLUMN */}
       <div className="container">
-        {/* HEADER GOES HERE */}
-        <Header title = {appInfo.title} tagline = {appInfo.tagline} description = {appInfo.description}/>
+        <Header title={appInfo.title} tagline={appInfo.tagline} description={appInfo.description}/>
+
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">{restaurants.map((restaurant) => {
-          return <Chip handleClick={() => handleEventRest(restaurant)}
-            label = {restaurant} isActive = {selectedRestaurant === restaurant}
-          />})}</div>
+          <div className="restaurants options">
+          {restaurants.map((restaurant) => (
+            <Chip handleClick={() => handleEventRestaurant(restaurant)}
+              label={restaurant} isActive={selectedRestaurant===restaurant}/>
+            ))}
+          </div>
         </div>
 
-        {/* INSTRUCTIONS GO HERE */}
-        <Instructions instructions = {appInfo.instructions.start} />
+        <Instructions instructions={appInfo.instructions.start}/>
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
-            {/* YOUR CODE HERE */}
-            
-            {currentMenuItems.map((item) => {
-              return <Chip label={item.item_name} key={item.item_name} onClick={()=>handleEventMenu(item)} isActive={selectedMenuItem === item.item_name}
-              />
-            })
-            }
+            {currentMenuItems.map((menuItem) => (
+            <Chip handleClick={() => handleEventMenuItem(menuItem)}
+              label={menuItem.item_name} isActive={selectedMenuItem===menuItem}/>
+            ))}
           </div>
 
           {/* NUTRITION FACTS */}
-          <div className="NutritionFacts nutrition-facts">{selectedMenuItem ? <NutritionalLabel item={selectedMenuItem}/>: null}
-            {/* YOUR CODE HERE */}
-          {/* {<NutritionalLabel info={selected_item}/>} */}
-
-
-
-            {/* {selectedMenuItem ? (
-              <NutritionalLabel item={data.find((item) =>{
-                return item.item_name === selectedMenuItem;
-              })}
-              />
-            ): null} */}
-        
+          <div className="NutritionFacts nutrition-facts">
+            {selectedMenuItem ? <NutritionalLabel item={selectedMenuItem}/> : 0}
           </div>
         </div>
 
@@ -144,4 +101,3 @@ export function App() {
 }
 
 export default App
-
